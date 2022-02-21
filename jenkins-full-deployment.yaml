@@ -44,6 +44,30 @@ spec:
           volumeMounts:
             - name: jenkins-data
               mountPath: /var/jenkins_home         
+        - name: webhookrelayd
+          image: "webhookrelay/webhookrelayd:latest"
+          imagePullPolicy: IfNotPresent
+          command: ["/relayd"]
+          env:
+            - name: KEY
+              valueFrom:
+                secretKeyRef:
+                  name: webhookrelay-credentials
+                  key: key
+            - name: SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: webhookrelay-credentials
+                  key: secret
+            - name: BUCKET
+              value: "jenkins"
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
       volumes:
         - name: jenkins-data
           persistentVolumeClaim:
