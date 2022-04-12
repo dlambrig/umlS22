@@ -1,0 +1,5 @@
+dags:
+  persistence:
+    enabled: true
+    existingClaim: centos-pv-claim
+    accessMode: ReadOnlyMany
